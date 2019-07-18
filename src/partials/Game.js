@@ -1,6 +1,7 @@
 import {SVG_NS, KEYS} from '../settings'
-import Board from './Board';
-import Paddle from './Paddle';
+import Board from './Board'
+import Paddle from './Paddle'
+import Ball from './Ball'
 
 export default class Game {
   constructor(element, width, height) {
@@ -16,6 +17,7 @@ export default class Game {
     this.boardGap = 10
 
     this.board = new Board(this.width, this.height)
+    this.ball = new Ball(8, this.width, this.height)
 
     //Player 1 Paddle
     this.player1 = new Paddle(
@@ -39,11 +41,27 @@ export default class Game {
       KEYS.down
     )
 
+    //event listener to pause game
+    document.addEventListener('keydown', event => {
+      switch(event.key) {
+        case KEYS.spaceBar:
+          this.pause = !this.pause
+          this.player1.speed = 10
+          this.player2.speed = 10
+          console.log(this.pause)
+      }
+    })
 
   }
 
   render() {
     
+    if(this.pause) {
+      this.player1.speed = 0
+      this.player2.speed = 0
+      return
+    }
+
     //Clear board
      this.gameElement.innerHTML = ''
 
@@ -58,5 +76,6 @@ export default class Game {
     this.board.render(svg)
     this.player1.render(svg)
     this.player2.render(svg)
+    this.ball.render(svg)
   }
 }

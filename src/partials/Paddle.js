@@ -8,20 +8,19 @@ export default class Paddle {
         this.x = x
         this.y = y
         this.speed = 10
-        this.score = 0
-
 
         document.addEventListener('keydown', event => {
             switch(event.key) {
                 case up:
                     this.y = Math.max(0, this.y - this.speed)
                 break;
-                case down:
+                case down :
                     this.y = Math.min(this.boardHeight - this.height, this.y + this.speed)
                 break
             }
         
         })
+    
     }
 
     render(svg) {
